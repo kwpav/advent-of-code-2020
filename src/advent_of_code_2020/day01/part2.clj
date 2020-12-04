@@ -10,10 +10,11 @@
 (def input (input->int "src/advent_of_code_2020/day01/input.txt"))
 
 (defn part2 [inp]
-  (for [x inp
-        y (rest inp)
-        z (rest (rest inp))]
-    (when (= (+ x y z) 2020)
-      (* x y z))))
-
-(first (filter identity (part2 input)))
+  (first
+   (filter
+    identity
+    (for [x inp
+          y (rest inp)
+          z (rest (rest inp))]
+      (when (= (+ x y z) 2020)
+        (* x y z))))))

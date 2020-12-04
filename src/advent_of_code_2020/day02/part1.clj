@@ -4,7 +4,7 @@
 (defn parse-input [input-location]
   (s/split-lines (slurp input-location)))
 
-(def input (parse-input "src/advent_of_code_2020/day02/testinput.txt"))
+(def input (parse-input "src/advent_of_code_2020/day02/input.txt"))
 
 (defn count-password-letters [policy-letter password]
   (count (filter #(= policy-letter %) (seq password))))

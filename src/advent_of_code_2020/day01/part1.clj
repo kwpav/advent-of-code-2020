@@ -18,4 +18,4 @@
         (= (+ x y) 2020) (* x y)
         :else (recur (rest i))))))
 
-(part1 input)
+;; (part1 input)

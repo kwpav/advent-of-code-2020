@@ -1,4 +1,4 @@
-(ns advent-of-code-2020.day01.part1
+(ns advent-of-code-2020.day03.part1
   (:require [clojure.string :as s]))
 
 (defn parse-input [input-location]
