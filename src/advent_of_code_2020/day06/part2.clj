@@ -4,7 +4,10 @@
 
 (defn part2
   [input]
-  (let [answers (map (fn [i] (map #(into #{} %) i)) (part1/parse-input input))]
-    (reduce + (map count (map #(apply set/intersection %) answers)))))
+  (->> (part1/parse-input input)
+       (map (fn [i] (map #(into #{} %) i)))
+       (map #(apply set/intersection %))
+       (map count)
+       (reduce +)))
 
 (part2 "src/advent_of_code_2020/day06/input.txt")

@@ -1,15 +1,18 @@
 (ns advent-of-code-2020.day06.part1
-  (:require [clojure.string :as s]
-            [clojure.set :as set]))
+  (:require [clojure.string :as s]))
 
 (defn parse-input
   "Split into groups based on empty newlines, split again based on single newlines for person"
   [input]
-  (map #(s/split % #"[\n]") (s/split (slurp input) #"[\n]{2}")))
+  (->> (s/split (slurp input) #"[\n]{2}")
+       (map s/split-lines)))
 
 (defn part1
   [input]
-  (let [answers (map #(apply str %) (parse-input input))]
-    (reduce + (map count (map #(into #{} %) answers)))))
+  (->> (parse-input input)
+       (map #(apply str %))
+       (map #(into #{} %))
+       (map count)
+       (reduce +)))
 
 (part1 "src/advent_of_code_2020/day06/input.txt")
