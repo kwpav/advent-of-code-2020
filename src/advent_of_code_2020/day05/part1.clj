@@ -1,43 +1,30 @@
 (ns advent-of-code-2020.day05.part1
   (:require [clojure.string :as s]))
 
-(defn parse-input [input-location]
-  (s/split-lines (slurp input-location)))
+;; Convert the row, column and seat info into binary and then calculate the binary to an integer.
+;; This works because FBFBBFFRLR converted to binary is 0101100 and 101
+;; 0101100 converts to 44
+;; 101 converts to 5
+;; Adding them together gives the seat id. e.g.:
+;; 0101100101 = 357
 
-(defn binary-space-calc
-  [characters lower-char upper-char lower upper]
-  (loop [remaining characters
-         lower lower 
-         upper upper]
-    (if (empty? remaining) lower
-        (let [change (int (Math/ceil (/ (- upper lower) 2)))]
-          (cond (= lower-char (first remaining))
-                (recur (rest remaining)
-                       lower
-                       (- upper change))
-                (= upper-char (first remaining))
-                (recur (rest remaining)
-                       (+ lower change)
-                       upper))))))
+(defn binary
+  [chars zero-char]
+  (apply str (map #(if (= zero-char %) 0 1) chars)))
 
-(defn calc-row
-  [boarding-pass]
-  (binary-space-calc (take 7 boarding-pass) \F \B 0 127))
-
-(defn calc-column
-  [boarding-pass]
-  (binary-space-calc (take-last 3 boarding-pass) \L \R 0 7))
-
-(defn calc-seat-id
-  [row column]
-  (+ (* row 8) column))
+(defn binary-calc
+  [binary-str]
+  (Integer/parseInt binary-str 2))
 
 (defn get-seat-info
   [boarding-pass]
-  (let [row (calc-row boarding-pass)
-        column (calc-column boarding-pass)
-        seat-id (calc-seat-id row column)]
-    {:row row :column column :seat-id seat-id}))
+  (let [row (binary (take 7 boarding-pass) \F)
+        column (binary (take-last 3 boarding-pass) \L)
+        seat-id (str row column)]
+    {:row (binary-calc row) :column (binary-calc column) :seat-id (binary-calc seat-id)}))
+
+(defn parse-input [input-location]
+  (s/split-lines (slurp input-location)))
 
 (defn part1
   [input]
